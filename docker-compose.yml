@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   apache-php:
-    build: ../docker-images
+    build: ./images
     image: apache-php:latest
     container_name: d4p-apache-php
     environment:
@@ -25,13 +25,10 @@ services:
     working_dir: /var/www/html/php-app
 
   database:
-    image: mysql:5.7
+    image: mariadb:latest
     container_name: d4p-database
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=keycloak
-      - MYSQL_USER=keycloak
-      - MYSQL_PASSWORD=password
     volumes:
       - ./data/d4p:/var/lib/mysql
     ports:
