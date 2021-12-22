@@ -5,9 +5,9 @@ services:
   apache-php:
     build: ./images
     image: apache-php:latest
-    container_name: d4p-apache-php
+    container_name: "${PROJECT_NAME}_apache_php"
     environment:
-      - VIRTUAL_HOST=php-app.local
+      - VIRTUAL_HOST=$APP_VIRTUAL_HOST
     volumes:
       - ../php-app:/var/www/html/php-app
       - /var/www/html/php-app/vendor
@@ -19,16 +19,19 @@ services:
 
   composer:
     image: composer:latest
-    container_name: d4p-composer
+    container_name: "${PROJECT_NAME}_composer"
     volumes_from:
       - apache-php
     working_dir: /var/www/html/php-app
 
   database:
     image: mariadb:latest
-    container_name: d4p-database
+    container_name: "${PROJECT_NAME}_database"
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=$DB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$DB_NAME
+      - MYSQL_USER=$DB_USER
+      - MYSQL_PASSWORD=$DB_PASSWORD
     volumes:
       - ./data/d4p:/var/lib/mysql
     ports:
@@ -36,18 +39,19 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: d4p-phpmyadmin
+    container_name: "${PROJECT_NAME}_phpmyadmin"
     environment:
-      - VIRTUAL_HOST=phpmyadmin.local
+      - VIRTUAL_HOST=$PMA_VIRTUAL_HOST
       - PMA_HOST=db
-      - PMA_USER=root
-      - PMA_PASSWORD=root
+      - PMA_USER=$DB_USER
+      - PMA_PASSWORD=$DB_PASSWORD
+      - UPLOAD_LIMIT=1G
     links:
       - database:db
 
   nginx-proxy:
     image: jwilder/nginx-proxy
-    container_name: d4p-nginx-proxy
+    container_name: "${PROJECT_NAME}_nginx_proxy"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     ports:
