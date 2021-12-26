@@ -30,6 +30,7 @@ Work Directory
   |
   |───docker4php <===== Dockerized environnement
   │   │   .gitignore
+  |   |   .env
   |   |   docker-compose.yml
   │   │   README.md
   |   |   LICENSE
