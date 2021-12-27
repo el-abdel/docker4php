@@ -57,3 +57,10 @@ Work Directory
   │   
   └───php-app <===== Application code source here
 ```
+
+### Install dependencies
+
+The vendor folder is not shared in our volumes to avoid making the application slow, so we need to install our dependencies in the container. To do so run:
+```
+docker-compose run --rm composer install --ignore-platform-reqs
+```
