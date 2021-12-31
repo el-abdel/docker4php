@@ -17,7 +17,8 @@ git clone https://github.com/el-abdel/docker4php.git
 ```
 cd docker4php
 ```
-3. Start containers:
+3. Edit environment variables in `.env` file
+4. Start containers:
 ```
 docker-compose up
 ```
